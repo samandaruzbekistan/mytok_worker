@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "754074473938",
+    "project_id": "mytok-fe7d5",
+    "storage_bucket": "mytok-fe7d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754074473938:android:46a0d9a8577f441d4d640b",
+        "android_client_info": {
+          "package_name": "uz.goldapps.mytok.mytok"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5v3jw0Wa-E3P_0dYS17EXoPRmMK2uDuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754074473938:android:d5958e796e85a1224d640b",
+        "android_client_info": {
+          "package_name": "uz.goldapps.mytok_worker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5v3jw0Wa-E3P_0dYS17EXoPRmMK2uDuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
