@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mytok_worker/screens/home_screen.dart';
+import 'package:mytok_worker/screens/home_test.dart';
 import 'package:mytok_worker/screens/login_screen.dart';
 import 'package:mytok_worker/screens/web_socket_test.dart';
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
-      home: isReg ? HomePage() : LoginPage(),
+      home: isReg ? HomeTest() : LoginPage(),
     );
   }
 }

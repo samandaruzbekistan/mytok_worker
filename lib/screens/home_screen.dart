@@ -19,27 +19,34 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   final channel = IOWebSocketChannel.connect('ws://90.156.211.5:8080');
   List<Map<String, dynamic>> ordersData = [];
+  bool isWebSocketConnected = false;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     streamListener();
   }
 
-  streamListener(){
+  streamListener() {
     channel.stream.listen((message) {
-      final getData = jsonDecode(message);
-      setState(() {
-        ordersData = List<Map<String, dynamic>>.from(jsonDecode(message));
-        print(ordersData);
-      });
+      if (mounted) {
+        final getData = jsonDecode(message);
+        setState(() {
+          isWebSocketConnected = true; // WebSocket is connected
+          ordersData = List<Map<String, dynamic>>.from(jsonDecode(message));
+        });
+      }
+    }, onError: (error) {
+      if (mounted) {
+        setState(() {
+          isWebSocketConnected = false; // WebSocket is down
+        });
+      }
     });
   }
 
   late int status = 0;
   var box = Hive.box('users');
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,30 +55,68 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("My tok", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+        title: Text(
+          "My tok",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         backgroundColor: AppColors.yellow,
       ),
       body: Column(
         children: [
-          // Text(
-          //   ordersData.map((item) {
-          //     return "Category: ${item['category']}, Title: ${item['titile']}";
-          //   }).join('\n'),
-          // ),
           Expanded(
-            child: ListView.builder(
-              itemCount: ordersData.length,
-              itemBuilder: (context, index) {
-                final item = ordersData[index]; // Use index to access each item
-                return ListTile(
-                  style: ListTileStyle(),
-                  title: Text(item['category'] ?? ''),
-                  subtitle: Text(item['titile'] ?? ''),
-                  leading: _buildLeadingIcon(item['category']),
-                  trailing: _buildIcon(item['order_status']),
-                );
-              },
-            ),
+            child: isWebSocketConnected
+                ? ordersData.isEmpty
+                    ? Center(
+                        child: Text(
+                          "Buyurtmalar mavjud emas",
+                          style:
+                              TextStyle(fontSize: w * 0.05, color: Colors.grey),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: ordersData.length,
+                        itemBuilder: (context, index) {
+                          final item = ordersData[index];
+                          return Card(
+                            child: ListTile(
+                              leading: _buildLeadingIcon(item['category']),
+                              title: Text(
+                                item['category'] ?? '',
+                                style: TextStyle(
+                                    color: AppColors.yellow,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: w * 0.06),
+                              ),
+                              subtitle: Text(item['location'] ?? ''),
+                              trailing: _buildForm(item['id']),
+                            ),
+                          );
+                        },
+                      )
+                : Center(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Internet bilan muammo!",
+                        style:
+                            TextStyle(fontSize: w * 0.05, color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      // CircleAvatar(
+                      //   radius: 30,
+                      //   backgroundColor: AppColors.yellow,
+                      //   child: IconButton(
+                      //     onPressed: () {
+                      //       // streamListener();
+                      //     },
+                      //     icon: Icon(Icons.update, color: Colors.white, size: 30,),
+                      //   ),
+                      // )
+                    ],
+                  )),
           )
         ],
       ),
@@ -118,10 +163,6 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget _buildLeadingIcon(String category) {
-  return CircleAvatar(
-    child: Image.asset("assets/images/montaj.png"),
-  );
-
   if (category == "Montaj") {
     return CircleAvatar(
       child: Image.asset("assets/images/montaj.png"),
@@ -144,15 +185,22 @@ Widget _buildLeadingIcon(String category) {
     );
   } else {
     return CircleAvatar(
-      child: Image.asset("assets/images/simyogoch.png"),
+      child: Image.asset("assets/images/montaj.png"),
     );
   }
 }
 
 Widget _buildIcon(String category) {
   if (category == "0") {
-    return IconButton(onPressed: (){}, icon: Icon(Icons.download));
+    return IconButton(onPressed: () {}, icon: Icon(Icons.download));
   } else {
     return Icon(Icons.check);
   }
+}
+
+Widget _buildForm(String id) {
+  return IconButton(
+    onPressed: () {},
+    icon: Icon(Icons.check),
+  );
 }

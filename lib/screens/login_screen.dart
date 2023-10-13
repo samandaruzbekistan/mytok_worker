@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
               if (response.statusCode == 200) {
                 var res = await response.stream.bytesToString();
                 Map valueMap = json.decode(res);
-                print(valueMap);
+                // print(valueMap);
                 if (valueMap['success'] == false) {
                   _onBasicAlertPressed(context);
                   setState(() {
