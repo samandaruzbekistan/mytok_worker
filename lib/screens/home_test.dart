@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mytok_worker/screens/job_details.dart';
+import 'package:mytok_worker/screens/my_orders.dart';
 import 'package:mytok_worker/screens/profile.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:web_socket_channel/io.dart';
@@ -29,8 +30,18 @@ class _HomeTestState extends State<HomeTest> {
   @override
   void initState() {
     super.initState();
-    // streamListener();
+    getBalans();
     fetchData();
+  }
+
+  Future<void> getBalans() async {
+    var request = http.MultipartRequest('POST', Uri.parse('https://mytok.uz/flutterapi/getbalans.php'));
+    request.fields.addAll({
+      'jobid': '${box.get('id')}'
+    });
+    http.StreamedResponse response = await request.send();
+    var balans_new = await response.stream.bytesToString();
+    box.put('balans', "${balans_new}");
   }
 
   Future<void> fetchData() async {
@@ -76,6 +87,7 @@ class _HomeTestState extends State<HomeTest> {
     return Scaffold(
       appBar: AppBar(
         // centerTitle: true,
+        automaticallyImplyLeading: false,
         title: Text(
           "My tok",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -113,7 +125,7 @@ class _HomeTestState extends State<HomeTest> {
                 return GestureDetector(
                   onTap: () async {
                     if(int.parse(item['balans']) <= int.parse(box.get('balans'))){
-                      _buildForm(context, item['id']);
+                      _buildForm(context, item['id'], item['balans']);
                     }
                     else{
                       _balansError(context);
@@ -174,9 +186,9 @@ class _HomeTestState extends State<HomeTest> {
         animationDuration: Duration(milliseconds: 400),
         onTap: (index) {
           if (index == 1) {
-            // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyOrders()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyOrders()));
           } else if (index == 2) {
-            // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ContactScreen()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Profile()));
           } else if (index == 3) {
             // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Profile()));
           }
@@ -186,7 +198,7 @@ class _HomeTestState extends State<HomeTest> {
     );
   }
 
-  void _buildForm(BuildContext context, String id) {
+  void _buildForm(BuildContext context, String id, String balans) {
     Alert(
       context: context,
       type: AlertType.warning,
@@ -195,12 +207,7 @@ class _HomeTestState extends State<HomeTest> {
       buttons: [
         DialogButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => JobDetails(id: id),
-              ),
-            );
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => JobDetails(id: id, balans: balans,)));
           },
           child: Text(
             "Qabul qilish",
@@ -267,3 +274,5 @@ _balansError(context) {
     ],
   ).show();
 }
+
+
