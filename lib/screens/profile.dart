@@ -92,22 +92,25 @@ class _ProfileState extends State<Profile> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                // shape: const StadiumBorder(),
-                // elevation: 20,
                 backgroundColor: AppColors.yellow,
-
+                padding: EdgeInsets.symmetric(horizontal: w*0.1, vertical: w*0.02),
+                elevation: 0,
               ),
               onPressed: () {
-                if(amountController.text.length > 3){
-                  launchUrl(Uri.parse("https://mytok.uz/flutterapi/payment.php?amount=${amountController.text}&worker_id=${box.get('id')}"));
+                if (amountController.text.length > 3) {
+                  launchUrl(Uri.parse(
+                      "https://mytok.uz/flutterapi/payment.php?amount=${amountController.text}&worker_id=${box.get('id')}"));
                   SystemNavigator.pop();
-                }
-                else{
+                } else {
                   _amountError(context);
                 }
               },
-              child: Text("To'lash", style: TextStyle(color: Colors.white),),
+              child: Text(
+                "To'lash",
+                style: TextStyle(color: Colors.white, fontSize: w*0.05),
+              ),
             ),
+            SizedBox(height: h*0.1,),
           ],
         ),
       ),
@@ -143,17 +146,31 @@ class _ProfileState extends State<Profile> {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => HomeTest()));
           } else if (index == 1) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyOrders()));
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => MyOrders()));
           } else if (index == 3) {
             // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Profile()));
           }
         },
         letIndexChange: (index) => true,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: OutlinedButton(
+        child: Text("Chiqish"),
+        style: OutlinedButton.styleFrom(
+          primary: Colors.red,
+          side: BorderSide(
+            color: Colors.red,
+          ),
+        ),
+        onPressed: () {
+          box.clear();
+          SystemNavigator.pop();
+        },
+      ),
     );
   }
 }
-
 
 _amountError(context) {
   Alert(

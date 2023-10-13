@@ -41,7 +41,7 @@ dependencies:
   lottie: ^1.1.0
   curved_navigation_bar: ^1.0.1
   url_launcher: ^6.0.3
-  flutter_launcher_icons: ^0.13.1
+#  flutter_launcher_icons: ^0.13.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,6 +49,17 @@ dependencies:
   firebase_core: ^2.17.0
   firebase_messaging: ^14.6.8
   flutter_local_notifications: ^15.1.1
+  flutter_native_splash: ^2.3.3
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  color: "#42a5f5"
+  image: "assets/images/logo.png"
+  min_sdk_android: 16
+  background_image: "assets/images/bg.jpg"
+
 
 dev_dependencies:
   flutter_test:
@@ -56,11 +67,11 @@ dev_dependencies:
   hive_generator:
   build_runner:
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/images/logo.jpg"
-  min_sdk_android: 16 # android min sdk min:16, default 21
+#flutter_launcher_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  image_path: "assets/images/logo.jpg"
+   # android min sdk min:16, default 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -84,7 +95,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
-    - assets/main/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

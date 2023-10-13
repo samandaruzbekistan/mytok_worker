@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mytok_worker/screens/home_screen.dart';
+
+import 'package:mytok_worker/screens/home_test.dart';
 import 'package:mytok_worker/utils/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -188,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                     box.put('phone', valueMap['data']['phone_number']);
                     box.put('balans', valueMap['data']['balans']);
                     box.put('password', '${passwordController.text}');
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeTest()));
                     setState(() {
                       _isLoading = false;
                     });
