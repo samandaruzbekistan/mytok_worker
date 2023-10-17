@@ -72,6 +72,27 @@ class _ProfileState extends State<Profile> {
             SizedBox(
               height: h * 0.01,
             ),
+            ListTile(
+              title: Text(
+                "Joylashuv:",
+                style:
+                TextStyle(fontWeight: FontWeight.bold, fontSize: w * 0.05),
+              ),
+              subtitle: Text(
+                "${box.get("region_name")}",
+                style: TextStyle(color: Colors.grey, fontSize: w * 0.04),
+              ),
+              leading: CircleAvatar(
+                child: Icon(
+                  Icons.location_on_outlined,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.deepPurpleAccent,
+              ),
+            ),
+            SizedBox(
+              height: h * 0.01,
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: w * 0.04),
               child: TextField(

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:mytok_worker/screens/home_test.dart';
 import 'package:mytok_worker/screens/my_orders.dart';
 import 'package:mytok_worker/screens/profile.dart';
@@ -13,7 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetails extends StatefulWidget {
-  JobDetails({Key? key, required this.id,required this.balans}) : super(key: key);
+  JobDetails({Key? key, required this.id, required this.balans})
+      : super(key: key);
   final String id;
   final String balans;
 
@@ -86,63 +88,63 @@ class _JobDetailsState extends State<JobDetails> {
                         backgroundColor: Colors.deepPurpleAccent,
                       ),
                     ),
-                    ListTile(
-                      title: Text(
-                        "Buyurtma nomi:",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: w * 0.05),
-                      ),
-                      subtitle: Text(
-                        "${ordersData['titile']}",
-                        style:
-                            TextStyle(color: Colors.grey, fontSize: w * 0.04),
-                      ),
-                      leading: CircleAvatar(
-                        child: Icon(
-                          Icons.abc,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: Colors.deepPurpleAccent,
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Tarifi:",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: w * 0.05),
-                      ),
-                      subtitle: Text(
-                        "${ordersData['body']}",
-                        style:
-                            TextStyle(color: Colors.grey, fontSize: w * 0.04),
-                      ),
-                      leading: CircleAvatar(
-                        child: Icon(
-                          Icons.comment,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: Colors.deepPurpleAccent,
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Manzili:",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: w * 0.05),
-                      ),
-                      subtitle: Text(
-                        "${ordersData['location']}",
-                        style:
-                            TextStyle(color: Colors.grey, fontSize: w * 0.04),
-                      ),
-                      leading: CircleAvatar(
-                        child: Icon(
-                          Icons.location_on_outlined,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: Colors.deepPurpleAccent,
-                      ),
-                    ),
+                    // ListTile(
+                    //   title: Text(
+                    //     "Buyurtma nomi:",
+                    //     style: TextStyle(
+                    //         fontWeight: FontWeight.bold, fontSize: w * 0.05),
+                    //   ),
+                    //   subtitle: Text(
+                    //     "${ordersData['titile']}",
+                    //     style:
+                    //         TextStyle(color: Colors.grey, fontSize: w * 0.04),
+                    //   ),
+                    //   leading: CircleAvatar(
+                    //     child: Icon(
+                    //       Icons.abc,
+                    //       color: Colors.white,
+                    //     ),
+                    //     backgroundColor: Colors.deepPurpleAccent,
+                    //   ),
+                    // ),
+                    // ListTile(
+                    //   title: Text(
+                    //     "Tarifi:",
+                    //     style: TextStyle(
+                    //         fontWeight: FontWeight.bold, fontSize: w * 0.05),
+                    //   ),
+                    //   subtitle: Text(
+                    //     "${ordersData['body']}",
+                    //     style:
+                    //         TextStyle(color: Colors.grey, fontSize: w * 0.04),
+                    //   ),
+                    //   leading: CircleAvatar(
+                    //     child: Icon(
+                    //       Icons.comment,
+                    //       color: Colors.white,
+                    //     ),
+                    //     backgroundColor: Colors.deepPurpleAccent,
+                    //   ),
+                    // ),
+                    // ListTile(
+                    //   title: Text(
+                    //     "Manzili:",
+                    //     style: TextStyle(
+                    //         fontWeight: FontWeight.bold, fontSize: w * 0.05),
+                    //   ),
+                    //   subtitle: Text(
+                    //     "${ordersData['location']}",
+                    //     style:
+                    //         TextStyle(color: Colors.grey, fontSize: w * 0.04),
+                    //   ),
+                    //   leading: CircleAvatar(
+                    //     child: Icon(
+                    //       Icons.location_on_outlined,
+                    //       color: Colors.white,
+                    //     ),
+                    //     backgroundColor: Colors.deepPurpleAccent,
+                    //   ),
+                    // ),
                     ListTile(
                       title: Text(
                         "Buyurtmachi:",
@@ -182,21 +184,43 @@ class _JobDetailsState extends State<JobDetails> {
                       ),
                     ),
                     SizedBox(
-                      height: h * 0.03,
+                      height: h * 0.1,
                     ),
                     Center(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        radius: 30,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.phone,
-                            color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.green,
+                            radius: 30,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.phone,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                launchUrl(Uri.parse(
+                                    'tel:' + "+${ordersData['phonenumber']}"));
+                              },
+                            ),
                           ),
-                          onPressed: () {
-                            launchUrl(Uri.parse('tel:' + "+${ordersData['phonenumber']}"));
-                          },
-                        ),
+                          SizedBox(width: w*0.04,),
+                          CircleAvatar(
+                            backgroundColor: Colors.pink,
+                            radius: 30,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.location_on_outlined,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                // openMaps(ordersData['lat'], ordersData['lang']);
+                                MapsLauncher.launchCoordinates(
+                                    double.parse(ordersData['lat']), double.parse(ordersData['lang']), 'Google Headquarters are here');
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -233,7 +257,8 @@ class _JobDetailsState extends State<JobDetails> {
         animationDuration: Duration(milliseconds: 400),
         onTap: (index) {
           if (index == 1) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyOrders()));
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => MyOrders()));
           } else if (index == 2) {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => Profile()));
@@ -246,6 +271,16 @@ class _JobDetailsState extends State<JobDetails> {
       ),
     );
   }
+
+  void openMaps(String lat, String long) async {
+
+    // Construct the maps URL with the specified location
+    final String mapsUrl = 'geo:${lat},${long}';
+
+    if (await canLaunch(mapsUrl)) {
+      await launch(mapsUrl);
+    } else {
+      throw 'Could not launch Maps.';
+    }
+  }
 }
-
-

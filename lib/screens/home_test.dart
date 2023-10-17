@@ -47,6 +47,9 @@ class _HomeTestState extends State<HomeTest> {
   Future<void> fetchData() async {
     var request = http.MultipartRequest(
         'GET', Uri.parse('https://mytok.uz/API/databaseconnect.php'));
+    request.fields.addAll({
+      'region_id' : box.get("region_id")
+    });
 
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult != ConnectivityResult.none) {
@@ -80,10 +83,12 @@ class _HomeTestState extends State<HomeTest> {
 
   var box = Hive.box('users');
 
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
+    var region_name = box.get('region_name');
     return Scaffold(
       appBar: AppBar(
         // centerTitle: true,

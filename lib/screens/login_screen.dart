@@ -188,6 +188,8 @@ class _LoginPageState extends State<LoginPage> {
                     box.put('lastname', valueMap['data']['fristname']);
                     box.put('phone', valueMap['data']['phone_number']);
                     box.put('balans', valueMap['data']['balans']);
+                    box.put('region_id', valueMap['data']['region_id']);
+                    box.put('region_name', valueMap['data']['region_name']);
                     box.put('password', '${passwordController.text}');
                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeTest()));
                     setState(() {
